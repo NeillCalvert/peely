@@ -23,7 +23,7 @@ import com.neilly.peely.service.AccountHolderService;
  *
  */
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/account") 
 public class AccountHolderController {
 	
 	private static final Logger logger = LogManager.getLogger(AccountHolderController.class);
