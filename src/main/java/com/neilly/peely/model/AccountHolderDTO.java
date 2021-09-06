@@ -3,41 +3,23 @@
  */
 package com.neilly.peely.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
- * @author neill
+ * @author mcalv
  *
  */
-@Entity
-public class AccountHolder {
+public class AccountHolderDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 	private String firstName;
 	private String lastName;
 	private int age;
-
-	public AccountHolder() {
-		
-	}
 	
-	public AccountHolder(String firstName, String lastName, int age) {
+	/**
+	 * Account Holder data transfer object
+	 */
+	public AccountHolderDTO(String firstName, String lastName, int age) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -66,7 +48,7 @@ public class AccountHolder {
 
 	@Override
 	public String toString() {
-		return "AccountHolder [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + "]";
+		return "AccountHolderDTO [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + "]";
 	}
 
 }
