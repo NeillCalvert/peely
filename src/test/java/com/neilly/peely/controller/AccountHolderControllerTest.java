@@ -37,7 +37,7 @@ class AccountHolderControllerTest {
 
 	@Test
 	void getByIdTest() throws Exception {
-		AccountHolder accountHolder = new AccountHolder("firstName", "lastName", 1);
+		AccountHolder accountHolder = new AccountHolder("firstName", "lastName", null, null, 1);
 		accountHolder.setId(1L);
 		when(accountHolderService.getById(1L)).thenReturn(Optional.of(accountHolder));
 		

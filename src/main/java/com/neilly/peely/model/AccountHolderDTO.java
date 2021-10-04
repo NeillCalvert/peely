@@ -11,14 +11,18 @@ public class AccountHolderDTO {
 	
 	private String firstName;
 	private String lastName;
+	private String username;
+	private String password;
 	private int age;
 	
 	/**
 	 * Account Holder data transfer object
 	 */
-	public AccountHolderDTO(String firstName, String lastName, int age) {
+	public AccountHolderDTO(String firstName, String lastName, String username, String password, int age) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
 		this.age = age;
 	}
 
@@ -44,6 +48,22 @@ public class AccountHolderDTO {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@Override

@@ -46,6 +46,13 @@ public class AccountHolderController {
 		return accountHolderService.getAllAccounts();
 	}
 	
+	@GetMapping("/accountByUsername")
+	@ResponseStatus(HttpStatus.OK)
+	@GenericLogger(logCustomMessage = true, customMessage = "Finding account by username", logMethodArgs = true)
+	public AccountHolder getByUsername(@RequestParam String username) {
+		return accountHolderService.getByUsername(username);
+	}
+	
 	@PostMapping("/createAccount")
 	@ResponseStatus(HttpStatus.OK)
 	@GenericLogger(logCustomMessage = true, customMessage = "Creating account", logMethodArgs = true)
