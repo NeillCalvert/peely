@@ -9,12 +9,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.mysql.cj.util.StringUtils;
+
 /**
  * @author neill
  *
  */
 @Entity
 public class AccountHolder {
+	
+	public static final int MINIMUM_ACCOUNTHOLDER_AGE = 18;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,11 +35,11 @@ public class AccountHolder {
 	}
 	
 	public AccountHolder(String firstName, String lastName, String username, String password, int age) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.password = password;
-		this.age = age;
+		setFirstName(firstName);
+		setLastName(lastName);
+		setUsername(username);
+		setPassword(password);
+		setAge(age);
 	}
 
 	public Long getId() {
@@ -51,6 +55,9 @@ public class AccountHolder {
 	}
 
 	public void setFirstName(String firstName) {
+		if(StringUtils.isNullOrEmpty(firstName)) {
+			throw new IllegalArgumentException("First name cannot be empty");
+		}
 		this.firstName = firstName;
 	}
 
@@ -59,6 +66,9 @@ public class AccountHolder {
 	}
 
 	public void setLastName(String lastName) {
+		if(StringUtils.isNullOrEmpty(lastName)) {
+			throw new IllegalArgumentException("Last name cannot be empty");
+		}
 		this.lastName = lastName;
 	}
 
@@ -67,6 +77,11 @@ public class AccountHolder {
 	}
 
 	public void setAge(int age) {
+		if(age < MINIMUM_ACCOUNTHOLDER_AGE) {
+			StringBuilder sb = new StringBuilder("Account Holders must be over ");
+			sb.append(MINIMUM_ACCOUNTHOLDER_AGE);
+			throw new IllegalArgumentException(sb.toString());
+		}
 		this.age = age;
 	}
 
@@ -75,6 +90,9 @@ public class AccountHolder {
 	}
 
 	public void setPassword(String password) {
+		if(StringUtils.isNullOrEmpty(password)) {
+			throw new IllegalArgumentException("Password cannot be empty");
+		}
 		this.password = password;
 	}
 
@@ -83,6 +101,9 @@ public class AccountHolder {
 	}
 
 	public void setUsername(String username) {
+		if(StringUtils.isNullOrEmpty(username)) {
+			throw new IllegalArgumentException("Username cannot be empty");
+		}
 		this.username = username;
 	}
 

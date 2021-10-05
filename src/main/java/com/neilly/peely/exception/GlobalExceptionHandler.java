@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.neilly.peely.globalexceptionhandler;
+package com.neilly.peely.exception;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -32,25 +32,39 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)  // 409
 	public ResponseEntity<Object> handleNotFound(NotFoundException exception, WebRequest request) {
-		Map<String, Object> body = new LinkedHashMap<>();
-		body.put("timestamp", LocalDateTime.now());
-		body.put("message", NOT_FOUND_EXCEPTION_MESSAGE);
 		
-		exceptionLogger.error(exception.getMessage());
-		
-		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(createHttpResponseBody(NOT_FOUND_EXCEPTION_MESSAGE), HttpStatus.NOT_FOUND);
 	}
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException exception, WebRequest request) {
+
+    	return new ResponseEntity<>(createHttpResponseBody(exception.getMessage()), HttpStatus.NOT_ACCEPTABLE);	
+    }
+    
+    @ExceptionHandler(UsernameAlreadyTakenException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Object> handleUsernameTakenException(Exception exception, WebRequest request) {
+		
+		return new ResponseEntity<>(createHttpResponseBody(exception.getMessage()), HttpStatus.CONFLICT);
+    }
     
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleException(Exception exception, WebRequest request) {
-		Map<String, Object> body = new LinkedHashMap<>();
-		body.put("timestamp", LocalDateTime.now());
-		body.put("message", EXCEPTION_MESSAGE);
 		
-		exceptionLogger.error(exception.getMessage());
-		
-		return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(createHttpResponseBody(EXCEPTION_MESSAGE), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    public Map<String, Object> createHttpResponseBody(String message){
+    	Map<String, Object> body = new LinkedHashMap<>();
+    	body.put("timestamp", LocalDateTime.now());
+    	body.put("message", message);
+    	
+    	exceptionLogger.error(message);
+    	
+    	return body;
     }
 
 }

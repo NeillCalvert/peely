@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.neilly.peely.exception.UsernameAlreadyTakenException;
 import com.neilly.peely.model.AccountHolder;
 import com.neilly.peely.model.AccountHolderDTO;
 import com.neilly.peely.model.AccountHolderDetails;
@@ -34,6 +35,10 @@ public class AccountHolderService implements UserDetailsService{
 	}
 	
 	public AccountHolder createAccountHolder(AccountHolderDTO accountHolder){
+		if(accountHolderRepository.findByUsername(accountHolder.getUsername()) != null) {
+			throw new UsernameAlreadyTakenException("Username already exists");
+		}
+		
 		AccountHolder persistentAccountHolder = new AccountHolder(accountHolder.getFirstName(), accountHolder.getLastName(), accountHolder.getUsername(), accountHolder.getPassword(), accountHolder.getAge());
 		return accountHolderRepository.save(persistentAccountHolder);
 	}
