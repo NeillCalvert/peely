@@ -31,33 +31,19 @@ public class AccountHolderController {
 	
 	@Autowired
 	private AccountHolderService accountHolderService;
-
-	@GetMapping("/accountById")
-	@ResponseStatus(HttpStatus.OK)
-	@GenericLogger(logCustomMessage = true, customMessage = "Finding account by ID", logMethodArgs = true)
-	public Optional<AccountHolder> getById(@RequestParam Long id) {
-		return accountHolderService.getById(id);
-	}
 	
 	@GetMapping("/allAccounts")
 	@ResponseStatus(HttpStatus.OK)
 	@GenericLogger(logCustomMessage = true, customMessage = "Finding all accounts", logMethodArgs = true)
-	public Iterable<AccountHolder> getAllAccounts() {
+	public Iterable<AccountHolderDTO> getAllAccounts() {
 		return accountHolderService.getAllAccounts();
-	}
-	
-	@GetMapping("/accountByUsername")
-	@ResponseStatus(HttpStatus.OK)
-	@GenericLogger(logCustomMessage = true, customMessage = "Finding account by username", logMethodArgs = true)
-	public AccountHolder getByUsername(@RequestParam String username) {
-		return accountHolderService.getByUsername(username);
 	}
 	
 	@PostMapping("/createAccount")
 	@ResponseStatus(HttpStatus.OK)
 	@GenericLogger(logCustomMessage = true, customMessage = "Creating account", logMethodArgs = true)
-	public AccountHolder addAccount(@RequestBody AccountHolderDTO accountHolder) {		
-		return accountHolderService.createAccountHolder(accountHolder);
+	public void addAccount(@RequestBody AccountHolderDTO accountHolder) {		
+		accountHolderService.createAccountHolder(accountHolder);
 	}
 	
 	@DeleteMapping("/deleteAccount")

@@ -15,6 +15,8 @@ public class AccountHolderDTO {
 	private String password;
 	private int age;
 	
+	public AccountHolderDTO() {}
+	
 	/**
 	 * Account Holder data transfer object
 	 */

@@ -3,11 +3,15 @@
  */
 package com.neilly.peely.model;
 
+import java.util.regex.Pattern;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.mysql.cj.util.StringUtils;
 
@@ -19,6 +23,9 @@ import com.mysql.cj.util.StringUtils;
 public class AccountHolder {
 	
 	public static final int MINIMUM_ACCOUNTHOLDER_AGE = 18;
+	public static final int MINIMUM_PASSWORD_LENGTH = 6;
+	public static final Pattern SPECIAL_CHARACTERS = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+	public static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -90,10 +97,10 @@ public class AccountHolder {
 	}
 
 	public void setPassword(String password) {
-		if(StringUtils.isNullOrEmpty(password)) {
-			throw new IllegalArgumentException("Password cannot be empty");
+		if(StringUtils.isNullOrEmpty(password) || password.length() < 6 || !SPECIAL_CHARACTERS.matcher(password).find()) {
+			throw new IllegalArgumentException("Password must be a minimum of 6 characters and contain a special character");
 		}
-		this.password = password;
+		this.password = passwordEncoder.encode(password);;
 	}
 
 	public String getUsername() {

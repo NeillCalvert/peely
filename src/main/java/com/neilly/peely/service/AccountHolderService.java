@@ -24,36 +24,32 @@ import com.neilly.peely.repository.AccountHolderRepository;
 public class AccountHolderService implements UserDetailsService{
 	
 	@Autowired
-	AccountHolderRepository accountHolderRepository;
+	private AccountHolderRepository accountHolderRepository;
 	
-	public Optional<AccountHolder> getById(Long id){
-		return accountHolderRepository.findById(id);
+	public Iterable<AccountHolderDTO> getAllAccounts(){
+		return accountHolderRepository.findAllAccountHolders();
 	}
 	
-	public Iterable<AccountHolder> getAllAccounts(){
-		return accountHolderRepository.findAll();
-	}
-	
-	public AccountHolder createAccountHolder(AccountHolderDTO accountHolder){
-		if(accountHolderRepository.findByUsername(accountHolder.getUsername()) != null) {
+	public void createAccountHolder(AccountHolderDTO accountHolder){
+		if(getByUsername(accountHolder.getUsername()) != null) {
 			throw new UsernameAlreadyTakenException("Username already exists");
 		}
 		
 		AccountHolder persistentAccountHolder = new AccountHolder(accountHolder.getFirstName(), accountHolder.getLastName(), accountHolder.getUsername(), accountHolder.getPassword(), accountHolder.getAge());
-		return accountHolderRepository.save(persistentAccountHolder);
+		accountHolderRepository.save(persistentAccountHolder);
 	}
 	
 	public void deleteAccountHolderById(Long id) {
 		accountHolderRepository.deleteById(id);
 	}
 	
-	public AccountHolder getByUsername(String username) {
+	public AccountHolderDTO getByUsername(String username) {
 		return accountHolderRepository.findByUsername(username);
 	}
 
 	@Override
 	public AccountHolderDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		AccountHolder accountHolder = accountHolderRepository.findByUsername(username);
+		AccountHolderDTO accountHolder = accountHolderRepository.findByUsername(username);
 		if(accountHolder == null) {
 			throw new UsernameNotFoundException("Could not find user");
 		}
