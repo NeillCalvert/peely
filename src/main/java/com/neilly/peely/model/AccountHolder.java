@@ -25,6 +25,7 @@ public class AccountHolder {
 	public static final int MINIMUM_ACCOUNTHOLDER_AGE = 18;
 	public static final int MINIMUM_PASSWORD_LENGTH = 6;
 	public static final Pattern SPECIAL_CHARACTERS = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	public static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@Id
@@ -36,17 +37,19 @@ public class AccountHolder {
 	@Column(unique = true)
 	private String username;
 	private String password;
+	private String email;
 	
 	public AccountHolder() {
 		
 	}
 	
-	public AccountHolder(String firstName, String lastName, String username, String password, int age) {
+	public AccountHolder(String firstName, String lastName, String username, String password, int age, String email) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setUsername(username);
 		setPassword(password);
 		setAge(age);
+		setEmail(email);
 	}
 
 	public Long getId() {
@@ -114,9 +117,23 @@ public class AccountHolder {
 		this.username = username;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		if(!StringUtils.isNullOrEmpty(email) && VALID_EMAIL_ADDRESS_REGEX.matcher(email).find()) {
+			this.email = email;
+		} else {
+			throw new IllegalArgumentException("Invalid Email");
+		}
+		
+	}
+
 	@Override
 	public String toString() {
-		return "AccountHolder [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + "]";
+		return "AccountHolder [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age
+				+ ", username=" + username + ", password=" + password + ", email=" + email + "]";
 	}
 
 }

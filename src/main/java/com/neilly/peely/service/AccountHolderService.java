@@ -35,7 +35,7 @@ public class AccountHolderService implements UserDetailsService{
 			throw new UsernameAlreadyTakenException("Username already exists");
 		}
 		
-		AccountHolder persistentAccountHolder = new AccountHolder(accountHolder.getFirstName(), accountHolder.getLastName(), accountHolder.getUsername(), accountHolder.getPassword(), accountHolder.getAge());
+		AccountHolder persistentAccountHolder = new AccountHolder(accountHolder.getFirstName(), accountHolder.getLastName(), accountHolder.getUsername(), accountHolder.getPassword(), accountHolder.getAge(), accountHolder.getEmail());
 		accountHolderRepository.save(persistentAccountHolder);
 	}
 	
@@ -46,6 +46,10 @@ public class AccountHolderService implements UserDetailsService{
 	public AccountHolderDTO getByUsername(String username) {
 		return accountHolderRepository.findByUsername(username);
 	}
+	
+	public AccountHolderDTO getByEmail(String email) {
+		return accountHolderRepository.findByEmail(email);
+	}
 
 	@Override
 	public AccountHolderDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,8 +59,6 @@ public class AccountHolderService implements UserDetailsService{
 		}
 		
 		return new AccountHolderDetails(accountHolder);
-	}
-	
-	
+	}	
 
 }
