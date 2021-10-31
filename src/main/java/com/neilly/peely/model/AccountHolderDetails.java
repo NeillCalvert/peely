@@ -14,13 +14,13 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class AccountHolderDetails implements UserDetails {
 	
-	private AccountHolderDTO accountHolder;
+	private AccountHolder accountHolder;
 	
-	public AccountHolderDetails(AccountHolderDTO accountHolder) {
-		this.accountHolder = accountHolder;
+	public AccountHolderDetails(AccountHolder accountHolder2) {
+		this.accountHolder = accountHolder2;
 	}
 
-	public AccountHolderDTO getAccountHolder() {
+	public AccountHolder getAccountHolder() {
 		return accountHolder;
 	}
 	

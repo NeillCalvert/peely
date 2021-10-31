@@ -77,6 +77,10 @@ public class AccountHolderDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public AccountHolder toEntity() {
+		return new AccountHolder(firstName, lastName, username, password, age, email);
+	}
 
 	@Override
 	public String toString() {

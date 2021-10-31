@@ -17,15 +17,13 @@ import com.neilly.peely.model.AccountHolderDTO;
  *
  */
 public interface AccountHolderRepository extends CrudRepository<AccountHolder, Long>{
-	List<AccountHolderDTO> findByFirstName(String firstName);
+	List<AccountHolder> findByFirstName(String firstName);
 	
-	@Query("SELECT new com.neilly.peely.model.AccountHolderDTO(a.firstName, a.lastName, a.username, a.password, a.age, a.email) FROM AccountHolder a WHERE a.username = ?1")
-	AccountHolderDTO findByUsername(String username);
+	AccountHolder findByUsername(String username);
 	
-	@Query ("SELECT new com.neilly.peely.model.AccountHolderDTO(a.firstName, a.lastName, a.username, a.password, a.age, a.email) from AccountHolder a")
-	List<AccountHolderDTO> findAllAccountHolders();
+	@Query("SELECT a FROM AccountHolder a")
+	List<AccountHolder> findAllAccountHolders();
 	
-	@Query("SELECT new com.neilly.peely.model.AccountHolderDTO(a.firstName, a.lastName, a.username, a.password, a.age, a.email) FROM AccountHolder a WHERE a.email= ?1")
-	AccountHolderDTO findByEmail(String email);
+	AccountHolder findByEmail(String email);
 	
 }

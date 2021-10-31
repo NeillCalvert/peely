@@ -50,6 +50,13 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(createHttpResponseBody(exception, exception.getMessage()), HttpStatus.CONFLICT);
     }
     
+    @ExceptionHandler(EmailAlreadyTakenException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Object> handleEmailTakenException(Exception exception, WebRequest request) {
+		
+		return new ResponseEntity<>(createHttpResponseBody(exception, exception.getMessage()), HttpStatus.CONFLICT);
+    }
+    
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleException(Exception exception, WebRequest request) {
@@ -62,7 +69,7 @@ public class GlobalExceptionHandler {
     	body.put("timestamp", LocalDateTime.now());
     	body.put("message", message);
     	
-    	exceptionLogger.error(exception.getMessage());
+    	exceptionLogger.error(exception.getMessage(), exception);
     	
     	return body;
     }

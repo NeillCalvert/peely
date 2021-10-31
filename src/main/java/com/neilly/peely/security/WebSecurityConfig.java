@@ -4,6 +4,7 @@
 package com.neilly.peely.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,6 +24,9 @@ import com.neilly.peely.service.AccountHolderService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	@Value("${security.unprotectedpages.path}")
+	private String[] UNPROTECTED_PAGES;
 
     @Autowired
     AccountHolderService accountHolderService;
@@ -51,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
             .anyRequest().authenticated()
             .and()
+            .csrf().disable()
             .formLogin().permitAll()
             .and()
             .logout().permitAll()
@@ -60,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/account/createAccount");
+        web.ignoring().antMatchers(UNPROTECTED_PAGES);
     }
 
     

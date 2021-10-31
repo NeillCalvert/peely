@@ -37,6 +37,7 @@ public class AccountHolder {
 	@Column(unique = true)
 	private String username;
 	private String password;
+	@Column(unique=true)
 	private String email;
 	
 	public AccountHolder() {
@@ -128,6 +129,10 @@ public class AccountHolder {
 			throw new IllegalArgumentException("Invalid Email");
 		}
 		
+	}
+	
+	public AccountHolderDTO toDTO() {
+		return new AccountHolderDTO(getFirstName(), getLastName(), getUsername(), getPassword(), getAge(), getEmail());	
 	}
 
 	@Override

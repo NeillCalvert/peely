@@ -3,8 +3,6 @@
  */
 package com.neilly.peely.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +18,7 @@ import com.neilly.peely.aspect.GenericLogger;
 import com.neilly.peely.model.AccountHolder;
 import com.neilly.peely.model.AccountHolderDTO;
 import com.neilly.peely.service.AccountHolderService;
+import com.neilly.peely.service.PasswordResetTokenService;
 
 /**
  * @author neill
@@ -32,10 +31,13 @@ public class AccountHolderController {
 	@Autowired
 	private AccountHolderService accountHolderService;
 	
+	@Autowired
+	private PasswordResetTokenService passwordResetTokenService;
+	
 	@GetMapping("/allAccounts")
 	@ResponseStatus(HttpStatus.OK)
 	@GenericLogger(logCustomMessage = true, customMessage = "Finding all accounts", logMethodArgs = true)
-	public Iterable<AccountHolderDTO> getAllAccounts() {
+	public Iterable<AccountHolder> getAllAccounts() {
 		return accountHolderService.getAllAccounts();
 	}
 	
@@ -51,6 +53,20 @@ public class AccountHolderController {
 	@GenericLogger(logCustomMessage = true, customMessage = "Deleting Account", logMethodArgs = true)
 	public void deleteAccountById(@RequestParam Long id) {
 		accountHolderService.deleteAccountHolderById(id);
+	}
+	
+	@PostMapping("/getPasswordResetToken")
+	@ResponseStatus(HttpStatus.OK)
+	@GenericLogger(logCustomMessage = true, customMessage = "Sending password reset token to user", logMethodArgs = true)
+	public void sendResetPasswordToken(@RequestParam("email") String userEmail) {
+		passwordResetTokenService.sendEmailWithPasswordResetToken(userEmail);
+	}
+	
+	@PostMapping("/resetPassword")
+	@ResponseStatus(HttpStatus.OK)
+	@GenericLogger(logCustomMessage = true, customMessage = "Resetting password", logMethodArgs = true)
+	public void resetPassword(@RequestParam("email") String email, @RequestParam("username") String username, @RequestParam("passwordResetToken") String passwordResetToken, @RequestParam("newPassword") String newPassword) {
+		passwordResetTokenService.updatePassword(email, username, passwordResetToken, newPassword);
 	}
 
 }
