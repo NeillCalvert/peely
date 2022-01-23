@@ -10,8 +10,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import com.mysql.cj.util.StringUtils;
 import com.neilly.peely.exception.PasswordResetTokenInvalidException;
 import com.neilly.peely.model.AccountHolder;
 import com.neilly.peely.model.AccountHolderDTO;
@@ -65,7 +65,7 @@ public class PasswordResetTokenService {
 	}
 
 	public void updatePassword(String email, String username, String token, String passwordToUpdate) {
-		if (!StringUtils.isNullOrEmpty(token)) {
+		if (!StringUtils.hasText(token)) {
 			PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
 
 			if (Objects.nonNull(passwordResetToken)) {
