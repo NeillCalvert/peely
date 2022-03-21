@@ -12,8 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.mysql.cj.util.StringUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * @author neill
@@ -66,7 +65,7 @@ public class AccountHolder {
 	}
 
 	public void setFirstName(String firstName) {
-		if(StringUtils.isNullOrEmpty(firstName)) {
+		if(!StringUtils.hasText(firstName)) {
 			throw new IllegalArgumentException("First name cannot be empty");
 		}
 		this.firstName = firstName;
@@ -77,7 +76,7 @@ public class AccountHolder {
 	}
 
 	public void setLastName(String lastName) {
-		if(StringUtils.isNullOrEmpty(lastName)) {
+		if(!StringUtils.hasText(lastName)) {
 			throw new IllegalArgumentException("Last name cannot be empty");
 		}
 		this.lastName = lastName;
@@ -101,7 +100,7 @@ public class AccountHolder {
 	}
 
 	public void setPassword(String password) {
-		if(StringUtils.isNullOrEmpty(password) || password.length() < 6 || !SPECIAL_CHARACTERS.matcher(password).find()) {
+		if(!StringUtils.hasText(password) || password.length() < 6 || !SPECIAL_CHARACTERS.matcher(password).find()) {
 			throw new IllegalArgumentException("Password must be a minimum of 6 characters and contain a special character");
 		}
 		this.password = passwordEncoder.encode(password);;
@@ -112,7 +111,7 @@ public class AccountHolder {
 	}
 
 	public void setUsername(String username) {
-		if(StringUtils.isNullOrEmpty(username)) {
+		if(!StringUtils.hasText(username)){
 			throw new IllegalArgumentException("Username cannot be empty");
 		}
 		this.username = username;
@@ -123,7 +122,7 @@ public class AccountHolder {
 	}
 
 	public void setEmail(String email) {
-		if(!StringUtils.isNullOrEmpty(email) && VALID_EMAIL_ADDRESS_REGEX.matcher(email).find()) {
+		if(StringUtils.hasText(email) && VALID_EMAIL_ADDRESS_REGEX.matcher(email).find()) {
 			this.email = email;
 		} else {
 			throw new IllegalArgumentException("Invalid Email");
