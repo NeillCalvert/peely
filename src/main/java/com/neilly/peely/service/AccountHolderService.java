@@ -32,7 +32,7 @@ public class AccountHolderService implements UserDetailsService{
 		return accountHolderRepository.findAllAccountHolders();
 	}
 	
-	public void createAccountHolder(AccountHolderDTO accountHolder){
+	public void createAccountHolder(AccountHolder accountHolder){
 		
 		if(null != getByUsername(accountHolder.getUsername())) {
 			throw new UsernameAlreadyTakenException("Username already exists");
@@ -42,7 +42,7 @@ public class AccountHolderService implements UserDetailsService{
 			throw new EmailAlreadyTakenException("Email already taken");
 		}
 
-		accountHolderRepository.save(accountHolder.toEntity());
+		accountHolderRepository.save(accountHolder);
 	}
 	
 	public void deleteAccountHolderById(Long id) {
@@ -55,6 +55,10 @@ public class AccountHolderService implements UserDetailsService{
 	
 	public AccountHolder getByEmail(String email) {
 		return accountHolderRepository.findByEmail(email);
+	}
+	
+	public Optional<AccountHolder> getById(Long id) {
+		return accountHolderRepository.findById(id);
 	}
 
 	@Override

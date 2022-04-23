@@ -130,10 +130,6 @@ public class AccountHolder {
 		
 	}
 	
-	public AccountHolderDTO toDTO() {
-		return new AccountHolderDTO(getFirstName(), getLastName(), getUsername(), getPassword(), getAge(), getEmail());	
-	}
-
 	@Override
 	public String toString() {
 		return "AccountHolder [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age
