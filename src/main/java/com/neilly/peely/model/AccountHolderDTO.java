@@ -9,6 +9,7 @@ package com.neilly.peely.model;
  */
 public class AccountHolderDTO {
 	
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -21,13 +22,22 @@ public class AccountHolderDTO {
 	/**
 	 * Account Holder data transfer object
 	 */
-	public AccountHolderDTO(String firstName, String lastName, String username, String password, int age, String email) {
+	public AccountHolderDTO(Long id, String firstName, String lastName, String username, String password, int age, String email) {
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.age = age;
 		this.email = email;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -76,10 +86,6 @@ public class AccountHolderDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public AccountHolder toEntity() {
-		return new AccountHolder(firstName, lastName, username, password, age, email);
 	}
 
 	@Override

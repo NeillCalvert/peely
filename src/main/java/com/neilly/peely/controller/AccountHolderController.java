@@ -4,7 +4,9 @@
 package com.neilly.peely.controller;
 
 import java.security.Principal;
+import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,20 +38,31 @@ public class AccountHolderController {
 	private AccountHolderService accountHolderService;
 	
 	@Autowired
+	private ModelMapper modelMapper;
+	
+	@Autowired
 	private PasswordResetTokenService passwordResetTokenService;
 	
-	@GetMapping("/allAccounts")
-	@ResponseStatus(HttpStatus.OK)
-	@GenericLogger(logCustomMessage = true, customMessage = "Finding all accounts", logMethodArgs = true)
-	public Iterable<AccountHolder> getAllAccounts() {
-		return accountHolderService.getAllAccounts();
+	private AccountHolderDTO convertToDto(AccountHolder accountHolder) {
+		AccountHolderDTO accountHolderDTO = modelMapper.map(accountHolder, AccountHolderDTO.class);
+	    return accountHolderDTO;
+	}
+	
+	private AccountHolder convertToEntity(AccountHolderDTO accountHolderDTO) {
+		AccountHolder accountHolder = modelMapper.map(accountHolderDTO, AccountHolder.class);
+	 
+	    if (accountHolderDTO.getId() != null) {
+	    	Optional<AccountHolder> oldAccountHolder = accountHolderService.getById(accountHolderDTO.getId());
+	        accountHolder.setId(oldAccountHolder.get().getId());
+	    }
+	    return accountHolder;
 	}
 	
 	@PostMapping("/createAccount")
 	@ResponseStatus(HttpStatus.OK)
 	@GenericLogger(logCustomMessage = true, customMessage = "Creating account", logMethodArgs = true)
 	public void addAccount(@RequestBody AccountHolderDTO accountHolder) {		
-		accountHolderService.createAccountHolder(accountHolder);
+		accountHolderService.createAccountHolder(convertToEntity(accountHolder));
 	}
 	
 	@DeleteMapping("/deleteAccount")
