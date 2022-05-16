@@ -45,13 +45,14 @@ public class AccountHolderController {
 	
 	private AccountHolderDTO convertToDto(AccountHolder accountHolder) {
 		AccountHolderDTO accountHolderDTO = modelMapper.map(accountHolder, AccountHolderDTO.class);
+		accountHolderDTO.setPassword("");
 	    return accountHolderDTO;
 	}
 	
 	private AccountHolder convertToEntity(AccountHolderDTO accountHolderDTO) {
 		AccountHolder accountHolder = modelMapper.map(accountHolderDTO, AccountHolder.class);
 	 
-	    if (accountHolderDTO.getId() != null) {
+	    if (null != accountHolderDTO.getId()) {
 	    	Optional<AccountHolder> oldAccountHolder = accountHolderService.getById(accountHolderDTO.getId());
 	        accountHolder.setId(oldAccountHolder.get().getId());
 	    }
