@@ -31,7 +31,7 @@ public class WorkoutController {
 
         if(null != workoutDTO.getId()){
             Optional<Workout> olderWorkout = workoutService.getWorkoutById(workout.getId());
-            workout.setId(olderWorkout.get().getId());
+            olderWorkout.ifPresent(value -> workout.setId(value.getId()));
         }
 
         return workout;
