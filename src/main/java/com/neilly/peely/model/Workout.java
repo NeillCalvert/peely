@@ -14,15 +14,18 @@ public class Workout {
     @ManyToOne()
     @JoinColumn(name="accountHolder_id")
     private AccountHolder accountHolder;
+    @OneToMany()
+    private List<Exercise> exercises;
 
     public Workout(){
     }
 
-    public Workout(Long id, String name, Date date, AccountHolder accountHolder){
+    public Workout(Long id, String name, Date date, AccountHolder accountHolder, List<Exercise> exercises){
         this.id = id;
         this.name = name;
         this.date = date;
         this.accountHolder = accountHolder;
+        this.exercises = exercises;
     }
 
     public Long getId() {
@@ -55,5 +58,13 @@ public class Workout {
 
     public void setAccountHolder(AccountHolder accountHolder) {
         this.accountHolder = accountHolder;
+    }
+
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 }

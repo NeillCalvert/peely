@@ -3,10 +3,8 @@
  */
 package com.neilly.peely.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author neill
@@ -26,7 +24,7 @@ public class Exercise {
 	public Exercise() {
 	}
 
-	public Exercise(Long id, String name){
+	public Exercise(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -46,4 +44,5 @@ public class Exercise {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }

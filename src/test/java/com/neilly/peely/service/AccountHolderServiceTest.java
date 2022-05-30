@@ -20,6 +20,8 @@ import com.neilly.peely.model.AccountHolder;
 import com.neilly.peely.model.AccountHolderDetails;
 import com.neilly.peely.repository.AccountHolderRepository;
 
+import java.util.Optional;
+
 /**
  * @author neill
  *
@@ -31,10 +33,10 @@ public class AccountHolderServiceTest {
 	AccountHolderRepository accountHolderRepository;
 
 	@InjectMocks
-	AccountHolderService accountHolderService;
+	AccountHolderServiceImpl accountHolderService;
 
 	public final String TEST_NAME = "testname";
-	public final String TEST_USERNAME = "testusername";
+	public final String TEST_USERNAME = "testname";
 	public final String TEST_VALID_PASSWORD = "P@ssword";
 	public final String TEST_VALID_EMAIL = "testemail@testemail.com";
 	public final int TEST_VALID_AGE = 24;
@@ -90,15 +92,15 @@ public class AccountHolderServiceTest {
 		
 		AccountHolderDetails testAccountHolderDetails = new AccountHolderDetails(testAccountHolder);
 
-		Mockito.when(accountHolderRepository.findByUsername(TEST_USERNAME)).thenReturn(testAccountHolder);
+		Mockito.when(accountHolderRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.of(testAccountHolder));
 
 		assertThat(accountHolderService.loadUserByUsername(TEST_USERNAME)).usingRecursiveComparison().isEqualTo(testAccountHolderDetails);
 	}
 
 	@Test
 	public void testLoadUserByUsernameEmpty() {
-
-		Mockito.when(accountHolderRepository.findByUsername(TEST_USERNAME)).thenReturn(null);
+		AccountHolder accountHolder = null;
+		Mockito.when(accountHolderRepository.findByUsername(TEST_USERNAME)).thenReturn(Optional.ofNullable(accountHolder));
 		
 		Exception exception = assertThrows(UsernameNotFoundException.class, () -> accountHolderService.loadUserByUsername(TEST_USERNAME));
 		String expectedMessage = "Could not find user";
