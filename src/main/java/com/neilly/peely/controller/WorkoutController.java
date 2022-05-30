@@ -64,4 +64,12 @@ public class WorkoutController {
         Workout workout = convertToWorkoutEntity(workoutDTO);
         workoutService.addWorkout(workout, authentication);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GenericLogger(logCustomMessage = true, customMessage = "Adding exercise to workout", logMethodArgs = true)
+    @PutMapping("/addExerciseToWorkout")
+    public void addExerciseToWorkout(Long exerciseId, Long workoutId, Authentication authentication){
+        workoutService.addExerciseToWorkout(exerciseId, workoutId, authentication.getName());
+    }
+
 }
