@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.neilly.peely.service.AccountHolderService;
+import com.neilly.peely.service.AccountHolderServiceImpl;
 
 /**
  * @author mcalv
@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	private String[] UNPROTECTED_PAGES;
 
     @Autowired
-    AccountHolderService accountHolderService;
+    AccountHolderServiceImpl accountHolderService;
      
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
